@@ -1,0 +1,36 @@
+function Decoder(bytes, port) {
+
+// Decode an uplink message from a buffer
+
+// (array) of bytes to an object of fields.
+
+var ledState;//gps latitude,units: Â°
+  ledState=bytes[0];
+
+var latitude;//gps latitude,units: Â°
+  latitude=(bytes[1] | bytes[2]<<8 | bytes[3]<<16 | bytes[4]<<24)/1000000;//gps latitude,units: Â°
+
+var longitude;
+  longitude=(bytes[5] | bytes[6]<<8 | bytes[7]<<16 | bytes[8]<<24)/1000000;//gps longitude,units: Â°
+
+var altitude;
+  altitude=(bytes[9] | bytes[10]<<8);
+
+var sats;
+  sats=bytes[11];
+  
+var rssi;
+  rssi=(bytes[12] | bytes[13] << 8 | bytes[14] << 16 | bytes[15] << 24);
+  
+var snr;
+  snr=(bytes[16] | bytes[17] << 8 | bytes[18] << 16 | bytes[19] << 24 ) / 100;
+  
+var bat;
+  bat=(bytes[20] | bytes[21]<<8) / 1000;
+
+var alarm;
+  alarm=bytes[22];
+
+return { LEDState:ledState, Latitude: latitude, Longitude: longitude, Altitude: altitude, Sats:sats, RSSI: rssi, SNR: snr, Bat:bat, Alarm:alarm };
+
+}
